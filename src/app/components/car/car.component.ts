@@ -1,10 +1,12 @@
 import { Component, OnInit, resolveForwardRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/models/car';
 import { CarDetails } from 'src/app/models/carDetails';
 import { CarImage } from 'src/app/models/carImage';
 import { CarImageService } from 'src/app/services/car-image.service';
 import { CarService } from 'src/app/services/car.service';
+import { CartService } from 'src/app/services/cart.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,8 +15,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./car.component.css'],
 })
 export class CarComponent implements OnInit {
-  cars:Car[] = [];
+  cars:Car [] = [];
   dataLoaded = false;
+  carFilterText="";
 
   imageBasePath=environment.baseUrl;
  // defaultlogo = "/uploads/defaultlogo.jpg"
@@ -34,6 +37,9 @@ export class CarComponent implements OnInit {
     private carService: CarService,
     private activatedRoute: ActivatedRoute,
     private carImageService:CarImageService,
+    private toastrService:ToastrService,
+    private cartService:CartService
+
   ) {}
 
   ngOnInit(): void {
@@ -97,6 +103,13 @@ export class CarComponent implements OnInit {
     this.carImageService.getCarImagesByCarId(carId).subscribe(response=>{
       this.carImage= response.data[0];
     })
+  }
+     
+    addToCart(car:Car){
+      this.toastrService.success("Sepete eklendi",car.carName)
+      this.cartService.addToCart(car);
+
+    }
 
   }
-}
+

@@ -14,6 +14,7 @@
     "target": "es2015",
     "module": "es2020",
     "strict": true,
+    "strictNullChecks": false,
     "strictPropertyInitialization": false,
     "lib": [
       "es2018",
